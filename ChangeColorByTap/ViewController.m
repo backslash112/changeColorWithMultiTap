@@ -9,11 +9,7 @@
 #import "ViewController.h"
 
 @interface ViewController ()
-{
-    NSDate *preTapDate;
-    NSDate *currentTapDate;
-    NSInteger tappedTimes;
-}
+
 @end
 
 @implementation ViewController
@@ -26,45 +22,10 @@
     [self.view addGestureRecognizer:tapRecognizer];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (IBAction)tap:(UITapGestureRecognizer*)sender {
     self.view.backgroundColor = [UIColor redColor];
     [self reset];
     return;
-    currentTapDate = [NSDate new];
-    NSInteger second = [self getSecondWithFistTapDate:preTapDate andSecondTapDate:currentTapDate];
-    BOOL isMultiTap = [self isMultiTap:second];
-    if (isMultiTap) {
-        tappedTimes++;
-        if (tappedTimes >= 3) {
-            self.view.backgroundColor = [UIColor redColor];
-            tappedTimes = 0;
-            [self reset];
-        }
-    } else {
-        tappedTimes = 0;
-    }
-    preTapDate = currentTapDate;
-}
-
-// 两次点击时间差在2秒之内即是有效的连续点击
-- (BOOL)isMultiTap:(NSInteger) second {
-    if (second <= 2 && second >= 0) {
-        return YES;
-    }
-    return NO;
-}
-
-// 根据两个date获取时间差
-// return: second
-- (NSInteger)getSecondWithFistTapDate:(NSDate*)firstDate andSecondTapDate:(NSDate*) secondDate {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *componets = [calendar components:NSCalendarUnitSecond fromDate:firstDate toDate:secondDate options:0];
-    return componets.second;
 }
 
 - (void)reset
